@@ -3,8 +3,10 @@ import threading
 import time
 import requests
 from .collector import flush
+agent_url="http://localhost:3774/apm/flask"
+interval=10
 
-def send(agent_url, metrics):
+def send(metrics):
     try:
         payload = {
             "collected_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
@@ -18,12 +20,12 @@ def send(agent_url, metrics):
         pass
         # print(f"[Watchlog APM] Send failed: {e}")
 
-def start(agent_url="http://localhost:3774/apm/flask", interval=10):
+def start():
     def loop():
         while True:
             metrics = flush()
             if metrics:
-                send(agent_url, metrics)
+                send(metrics)
             time.sleep(interval)
 
     thread = threading.Thread(target=loop, daemon=True)
