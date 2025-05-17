@@ -7,8 +7,8 @@ setup(
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     author='Mohammadreza',
-    author_email='your-email@example.com',
-    url='https://github.com/yourusername/flask_watchlog_apm',
+    author_email='mohammadnajm75@gmail.com',
+    url='https://github.com/watchlogserver/flask_watchlog_apm',
     packages=find_packages(),
     install_requires=[
         'Flask',
