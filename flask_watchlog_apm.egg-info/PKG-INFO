@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: flask_watchlog_apm
-Version: 0.1.5
+Version: 0.1.6
 Summary: Lightweight APM for Flask that sends metrics to Watchlog Agent
 Home-page: https://github.com/watchlogserver/flask_watchlog_apm
 Author: Mohammadreza
@@ -71,7 +71,7 @@ patch_flask_app(app, service="my-flask-service")
 apm_error_handler(app, service="my-flask-service")
 
 # Start background sender
-start(agent_url="http://localhost:3774/apm", interval=10)
+start()
 
 
 

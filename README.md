@@ -43,7 +43,7 @@ patch_flask_app(app, service="my-flask-service")
 apm_error_handler(app, service="my-flask-service")
 
 # Start background sender
-start(agent_url="http://localhost:3774/apm", interval=10)
+start()
 
 
 
