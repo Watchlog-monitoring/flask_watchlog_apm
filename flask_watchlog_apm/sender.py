@@ -3,14 +3,17 @@ import threading
 import time
 import requests
 from .collector import flush
-agent_url="http://localhost:3774/apm/flask"
-interval=10
+
+agent_url = "http://localhost:3774/apm"
+interval = 10
+
 
 def send(metrics):
     try:
         payload = {
             "collected_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
-            "metrics": metrics
+            "platformName": 'flask',
+            "metrics": metrics,
         }
         response = requests.post(agent_url, json=payload, timeout=3)
         if response.status_code >= 400:
@@ -19,6 +22,7 @@ def send(metrics):
     except Exception as e:
         pass
         # print(f"[Watchlog APM] Send failed: {e}")
+
 
 def start():
     def loop():

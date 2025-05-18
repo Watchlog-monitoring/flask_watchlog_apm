@@ -5,14 +5,16 @@ import os
 from flask import request
 from .collector import record
 
+
 def get_memory_usage():
     process = psutil.Process(os.getpid())
     mem = process.memory_info()
     return {
         "rss": mem.rss,
-        "heapUsed": mem.rss,     # approximation
-        "heapTotal": mem.vms     # approximation
+        "heapUsed": mem.rss,  # approximation
+        "heapTotal": mem.vms,  # approximation
     }
+
 
 def patch_flask_app(app, service="default-service", ignore=[]):
     """
@@ -22,8 +24,7 @@ def patch_flask_app(app, service="default-service", ignore=[]):
 
     def wrapped_add_url_rule(rule, endpoint=None, view_func=None, **options):
         if any(
-            isinstance(p, str) and p == rule or 
-            hasattr(p, 'match') and p.match(rule)
+            isinstance(p, str) and p == rule or hasattr(p, "match") and p.match(rule)
             for p in ignore
         ):
             return original_add_url_rule(rule, endpoint, view_func, **options)
@@ -35,6 +36,7 @@ def patch_flask_app(app, service="default-service", ignore=[]):
 
     app.add_url_rule = wrapped_add_url_rule
     return app
+
 
 def wrap_view_func(view_func, path, service):
     @functools.wraps(view_func)
@@ -52,13 +54,16 @@ def wrap_view_func(view_func, path, service):
         finally:
             duration = (time.perf_counter() - start) * 1000  # milliseconds
             memory = get_memory_usage()
-            record({
-                "type": "request",
-                "service": service,
-                "path": path,
-                "method": request.method,
-                "statusCode": status_code,
-                "duration": duration,
-                "memory": memory
-            })
+            record(
+                {
+                    "type": "request",
+                    "service": service,
+                    "path": path,
+                    "method": request.method,
+                    "statusCode": status_code,
+                    "duration": duration,
+                    "memory": memory,
+                }
+            )
+
     return wrapper
