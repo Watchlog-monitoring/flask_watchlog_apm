@@ -3,8 +3,14 @@ import threading
 import time
 import requests
 from .collector import flush
+import os
 
-agent_url = "http://localhost:3774/apm"
+is_kubernetes = os.getenv('KUBERNETES_SERVICE_HOST') is not None
+agent_url = (
+    'http://watchlog-node-agent:3774/apm'
+    if is_kubernetes
+    else 'http://localhost:3774/apm'
+)
 interval = 10
 
 

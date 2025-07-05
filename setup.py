@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="flask_watchlog_apm",
-    version="0.1.6",
+    version="0.1.7",
     description="Lightweight APM for Flask that sends metrics to Watchlog Agent",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
