@@ -1,3 +1,10 @@
+## [0.1.10](https://github.com/Watchlog-monitoring/flask_watchlog_apm/compare/v0.1.9...v0.1.10) (2025-07-15)
+
+
+### Bug Fixes
+
+* add multi-step Kubernetes env detection and cache default server URL ([0740f6f](https://github.com/Watchlog-monitoring/flask_watchlog_apm/commit/0740f6f22ffc8a1d9f438bacbbf4f31655f39c65))
+
 ## [0.1.9](https://github.com/Watchlog-monitoring/flask_watchlog_apm/compare/v0.1.8...v0.1.9) (2025-07-11)
 
 
