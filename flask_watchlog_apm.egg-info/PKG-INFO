@@ -1,8 +1,8 @@
 Metadata-Version: 2.1
 Name: flask_watchlog_apm
-Version: 0.1.9
+Version: 0.2.0
 Summary: Lightweight APM for Flask that sends metrics to Watchlog Agent
-Home-page: https://github.com/watchlogserver/flask_watchlog_apm
+Home-page: https://github.com/Watchlog-monitoring/flask_watchlog_apm
 Author: Mohammadreza
 Author-email: mohammadnajm75@gmail.com
 Classifier: Programming Language :: Python :: 3

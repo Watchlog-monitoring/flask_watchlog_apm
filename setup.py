@@ -2,13 +2,13 @@ from setuptools import setup, find_packages
 
 setup(
     name="flask_watchlog_apm",
-    version="0.1.9",
+    version="0.2.0",
     description="Lightweight APM for Flask that sends metrics to Watchlog Agent",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     author="Mohammadreza",
     author_email="mohammadnajm75@gmail.com",
-    url="https://github.com/watchlogserver/flask_watchlog_apm",
+    url="https://github.com/Watchlog-monitoring/flask_watchlog_apm",
     packages=find_packages(),
     install_requires=["Flask", "psutil", "requests"],
     classifiers=[
