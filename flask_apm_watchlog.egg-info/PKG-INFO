@@ -1,3 +1,24 @@
+Metadata-Version: 2.1
+Name: flask-apm-watchlog
+Version: 1.0.1
+Summary: Flask instrumentation for Watchlog APM with JSON OTLP export
+Home-page: https://github.com/Watchlog-monitoring/flask_watchlog_apm
+Author: Mohammadreza
+Author-email: mohammadnajm75@gmail.com
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: Framework :: Flask
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: opentelemetry-api>=1.9.0
+Requires-Dist: opentelemetry-sdk>=1.9.0
+Requires-Dist: opentelemetry-exporter-otlp-proto-http>=1.9.0
+Requires-Dist: opentelemetry-instrumentation-flask>=0.34b0
+Requires-Dist: opentelemetry-instrumentation-requests>=0.34b0
+Requires-Dist: dnspython>=2.0.0
+
 # flask_watchlog_apm
 
 🔗 **Website**: [https://watchlog.io](https://watchlog.io)

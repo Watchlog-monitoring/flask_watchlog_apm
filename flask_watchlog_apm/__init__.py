@@ -1,4 +1,6 @@
-from .middleware import apm_middleware
-from .error_handler import apm_error_handler
-from .sender import start
-from .patch_flask_routes import patch_flask_app
+# fastapi_watchlog_apm/__init__.py
+
+from .instrument import instrument_app as instrument, instrument_app
+
+__all__ = ["instrument_app"]
+
