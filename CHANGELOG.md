@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/Watchlog-monitoring/flask_watchlog_apm/compare/v1.0.1...v1.0.2) (2025-07-28)
+
+
+### Bug Fixes
+
+* update pip package ([8c8985f](https://github.com/Watchlog-monitoring/flask_watchlog_apm/commit/8c8985fbf723b2627ed93bde45456c6c9a52268f))
+
 ## [0.1.11](https://github.com/Watchlog-monitoring/flask_watchlog_apm/compare/v0.1.10...v0.1.11) (2025-07-15)
 
 
