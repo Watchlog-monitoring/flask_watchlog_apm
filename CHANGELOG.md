@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/Watchlog-monitoring/flask_watchlog_apm/compare/v1.0.2...v1.1.0) (2025-11-22)
+
+
+### Features
+
+* handle agent url ([832cf87](https://github.com/Watchlog-monitoring/flask_watchlog_apm/commit/832cf87771def763c6a8fffd93921de77f39e1fd))
+
 ## [1.0.2](https://github.com/Watchlog-monitoring/flask_watchlog_apm/compare/v1.0.1...v1.0.2) (2025-07-28)
 
 
