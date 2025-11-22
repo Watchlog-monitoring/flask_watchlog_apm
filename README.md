@@ -73,7 +73,7 @@ What happens?
 | Parameter           | Type    | Default                     | Description                                                      |
 | ------------------- | ------- | --------------------------- | ---------------------------------------------------------------- |
 | `service_name`      | `str`   | **required**                | Name of your Flask service                                       |
-| `otlp_endpoint`     | `str`   | `http://localhost:3774/apm` | Base OTLP URL (appends `/<service>/v1/traces`)                   |
+| `otlp_endpoint`     | `str`   | `http://localhost:3774/apm` | Base OTLP URL (overrides auto-detection if different from default) |
 | `headers`           | `dict`  | `{}`                        | Additional HTTP headers for OTLP requests                        |
 | `batch_max_size`    | `int`   | `200`                       | Maximum spans per batch                                          |
 | `batch_delay_ms`    | `int`   | `5000`                      | Delay in milliseconds between batch exports                      |
@@ -105,7 +105,9 @@ def fetch_db():
 
 ## Environment Detection
 
-- **Local (non-K8s)**: sends to `http://127.0.0.1:3774/apm`  
+The package automatically detects the runtime environment:
+
+- **Local (non-K8s)**: sends to `http://localhost:3774/apm`  
 - **Kubernetes (in-cluster)**: sends to `http://watchlog-python-agent.monitoring.svc.cluster.local:3774/apm`
 
 Detection checks in order:
@@ -113,6 +115,104 @@ Detection checks in order:
 1. Existence of `/var/run/secrets/kubernetes.io/serviceaccount/token`  
 2. Presence of `kubepods` in `/proc/1/cgroup`  
 3. DNS lookup of `kubernetes.default.svc.cluster.local`
+
+**Manual Override:** You can override the endpoint by passing `otlp_endpoint` option in `instrument_app()` function
+
+---
+
+## Docker Setup
+
+When running your Flask app in Docker, you need to configure the correct agent endpoint.
+
+### Using otlp_endpoint Option (Recommended for Docker)
+
+```python
+# main.py
+from flask import Flask
+from flask_watchlog_apm.instrument import instrument_app
+
+app = Flask(__name__)
+
+# Initialize Watchlog APM with explicit agent URL for Docker
+instrument_app(
+    app,
+    service_name="my-flask-service",
+    otlp_endpoint="http://watchlog-agent:3774/apm",  # Use container name
+    sample_rate=0.5,
+    send_error_spans=True,
+    error_tps=10,
+    slow_threshold_ms=100
+)
+
+@app.route("/")
+def hello():
+    return "Hello, Watchlog APM!"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=6000, debug=True)
+```
+
+**Docker Compose Example:**
+```yaml
+version: '3.8'
+
+services:
+  watchlog-agent:
+    image: watchlog/agent:latest
+    container_name: watchlog-agent
+    ports:
+      - "3774:3774"
+    environment:
+      - WATCHLOG_APIKEY=your-api-key
+      - WATCHLOG_SERVER=https://log.watchlog.ir
+    networks:
+      - app-network
+
+  flask-app:
+    build: .
+    container_name: flask-app
+    ports:
+      - "6000:6000"
+    environment:
+      - FLASK_ENV=production
+    depends_on:
+      - watchlog-agent
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+```
+
+**Docker Run Example:**
+```bash
+# 1. Create network
+docker network create app-network
+
+# 2. Run Watchlog Agent
+docker run -d \
+  --name watchlog-agent \
+  --network app-network \
+  -p 3774:3774 \
+  -e WATCHLOG_APIKEY="your-api-key" \
+  -e WATCHLOG_SERVER="https://log.watchlog.ir" \
+  watchlog/agent:latest
+
+# 3. Run Flask app (make sure your code sets otlp_endpoint='http://watchlog-agent:3774/apm')
+docker run -d \
+  --name flask-app \
+  --network app-network \
+  -p 6000:6000 \
+  my-flask-app
+```
+
+**Important Notes:**
+- When using Docker, use the container name as the hostname (e.g., `watchlog-agent`)
+- Both containers must be on the same Docker network
+- The agent must be running before your app starts
+- Set the `otlp_endpoint` option in your code to point to the agent container
+- If `otlp_endpoint` is not provided (or set to default), auto-detection will be used
 
 ---
 

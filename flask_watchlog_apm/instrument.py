@@ -39,7 +39,11 @@ def _is_running_in_k8s() -> bool:
         return False
 
 
-def _detect_endpoint(default: str) -> str:
+def _detect_endpoint(default: str, user_provided_url: str = None) -> str:
+    # If user explicitly provided a URL (different from default), use it directly (skip auto-detection)
+    if user_provided_url:
+        return user_provided_url
+    # Otherwise, use auto-detection
     if _is_running_in_k8s():
         k8s_url = 'http://watchlog-python-agent.monitoring.svc.cluster.local:3774/apm'
         logger.debug(f"Detected Kubernetes; using endpoint {k8s_url}")
@@ -126,7 +130,12 @@ def instrument_app(
     """
     headers = headers or {}
     rate = min(sample_rate, 0.3)
-    base = _detect_endpoint(otlp_endpoint)
+    # Priority: 1) otlp_endpoint option (if different from default), 2) auto-detection
+    default_endpoint = 'http://localhost:3774/apm'
+    # If user provided otlp_endpoint explicitly (different from default), use it (skip auto-detection)
+    # Otherwise, use auto-detection
+    user_url = otlp_endpoint if otlp_endpoint != default_endpoint else None
+    base = _detect_endpoint(default_endpoint, user_url)
 
     # 1) TracerProvider with sampler
     resource = Resource.create({"service.name": service_name})

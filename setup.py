@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name="flask_watchlog_apm",
     license="MIT",
-    version="1.0.2",
+    version="1.1.0",
     description="Flask instrumentation for Watchlog APM with JSON OTLP export",
     long_description=open("README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
